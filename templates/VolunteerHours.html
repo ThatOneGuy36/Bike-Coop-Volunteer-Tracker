@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Volunteer Hour Records</title>
+		<meta charset="UTF-8" />
+		
+		<link rel="stylesheet" href="{{ url_for('static', filename = '../static/IndexStyle.css') }}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script type = "text/javascript" src = "{{ url_for('static', filename = '../static/Functions.js') }}" ></script>
+		
+	</head>
+
+	<body>
+		<header>
+			<img src="{{ url_for('static', filename = '../static/Bike_Coop_Logo.png')}}" style="float: left;"/>
+			<img src="{{ url_for('static', filename = '../static/UOSU_Logo.png')}}" style="float: right; margin-right:10px;"/>
+			<h1>Volunteer Tracker</h1>
+			
+		</header>
+		
+		<footer>
+			<table id="table">
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Student</th>
+					<th>Current Hours</th>
+					<th>Current Rewards</th>
+				</tr>
+				
+				
+				
+				{% for row in data %}
+				<tr>
+					<td id="vID">{{ row[0] }}</td>
+					<td id="vName">{{ row[1] }}<button class="editNameButton iconButtons" style="float:right;" title="Change Volunteer's Name"><i class="fa fa-pencil-square-o"></i></button></td>
+					<td id="vStudent">
+						{% if row[2] == 0 %} No
+						{% else %} Yes
+						{% endif %}
+						<button class="editStudentButton iconButtons" style="float:right;" title="Adjust Student Status"><i class="fa fa-pencil-square-o"></i></button>
+					</td>
+					<td id="vNumHours">{{ row[3] }}<button class="updateHoursButton iconButtons" style="float:right;" title="Update Number of Hours"><i class="fa fa-plus-square-o"></i></button></td>
+					
+					
+					<td>
+						<button class="printViewButton iconButtons" style="float:right;" title="Show List of Redeemed Rewards"><i class="fa fa-file-text-o"></i></button><br><br>
+						{% for rewardRow in rewardData %}
+							{% if row[0] == rewardRow[0] %}
+								{{ rewardRow[1] }} : {{ rewardRow[2] }}<button class="rewardRedeemButton">Redeem</button><br><br>
+							{% endif %}
+						{% endfor %}
+					</td>
+				</tr>	
+				{% endfor %}
+				
+			</table>
+			
+			<br><br>
+			
+			<button id="addVolunteer">Add Volunteer</button>
+			<button id="deleteVolunteer">Delete Volunteer</button>
+			
+			
+			<br><br><br>
+			
+			<form action="/create" method="post" hidden id="addForm" class="forms">
+				<label>Volunteer Name:</label><input type="text" name="VolunteerName"><br>
+				<label for="isStudent">Student? </label><input type="checkbox" id="isStudent" name="isStudent"/><br>
+				<input type="submit" value="Create record">
+			</form>
+			
+			<form action="/delete" method="post" hidden id="deleteForm" class="forms">
+				<label>Volunteer ID:</label><input type="text" name="VolunteerID" id="VolunteerID"><br>  
+				<input type="submit" value="Delete record"> 
+			</form>
+			
+			<form action="/update_hours" method="post" hidden id="updateForm" class="forms">
+				<label>Volunteer ID:</label><input type="text" name="VolunteerID" id="VolunteerID_update_hours"><br>  
+				<label>Add:</label><input type="range" min="0.25" max="10" step="0.25" name="addedHours" id="myRange"><span id="rangeVal"></span><br>
+				<input type="submit" value="Update record"> 
+			</form>
+			
+			<form action="/update_name" method="post" hidden id="updateForm_name" class="forms">
+				<label>Volunteer ID:</label><input type="text" name="VolunteerID" id="VolunteerID_update_name"><br>  
+				<label>New Name: </label><input type="text" name="vName" id="vName"><br>
+				<input type="submit" value="Update Name"> 
+			</form>
+			
+			<form action="/update_student" method="post" hidden id="updateForm_student" class="forms">
+				<label>Volunteer ID:</label><input type="text" name="VolunteerID" id="VolunteerID_update_status"><br>  
+				<label>New Status: </label>
+				<select name="vStatus" id="vStatus">
+					<option value="true">Student</option>
+					<option value="false">Non Student</option>
+				</select><br>
+				<input type="submit" value="Update Status"> 
+			</form>
+			
+			
+			<form action="/print" method="post" id="printForm">
+				<input type="hidden" name="volunteerIdPrint" id="volunteerIdInputPrint">
+			</form>
+			
+			<form action="/redeem_reward" method="post" id="updateHiddenForm" >
+				<input type="hidden" name="volunteerId" id="volunteerIdInput">
+				<input type="hidden" name="rewardName" id="rewardNameInput">
+			</form>
+		</footer>
+	</body>
+</html>

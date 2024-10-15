@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Rewards to Print</title>
+		<meta charset="UTF-8" />
+		
+		<link rel="stylesheet" href="{{ url_for('static', filename = '../static/IndexStyle.css') }}">
+		<script type = "text/javascript" src = "{{ url_for('static', filename = '../static/Functions.js') }}" ></script>
+	</head>
+
+	<body>
+		<h1 style="text-align: center;">Volunteer Tracker</h1>
+		
+		<textarea id="printableRewards" readonly cols=70, rows=30></textarea>
+		
+		<script>
+			var textarea = document.getElementById("printableRewards");
+			
+			textarea.value += "Volunteer Name: {{printData[0][0]}} \n\n";
+			
+			{% for row in printData[1] %}
+				textarea.value += "Reward Name: {{row[0]}}\n";
+				textarea.value += "Date Redeemed: {{row[1]}}\n\n";
+			{% endfor %}
+		
+			textarea.value += "\n---------- TOTAL REDEEMED -----------\n\n";
+			
+			{% for row in printData[2] %}
+				textarea.value += "{{row[0]}}: {{row[1]}}\n";
+			{% endfor %}
+			
+		</script>
+		
+	</body>
+</html>

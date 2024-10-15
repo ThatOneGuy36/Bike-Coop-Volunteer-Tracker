@@ -1,0 +1,15 @@
+Stuff required:
+- Name
+- Part number
+- Quantity
+- Last restock date
+
+
+- Way to summarize all the info into a list that can be copied or printed
+- Can edit the quantity, last restock date, or add entirely new tool from their end
+
+- Likely make into 1 database that connects to a webpage
+
+
+
+

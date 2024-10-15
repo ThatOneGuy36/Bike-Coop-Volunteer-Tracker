@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Error!</title>
+		<meta charset="UTF-8" />
+		
+		<link rel="stylesheet" href="{{ url_for('static', filename = '../static/ErrorStyle.css') }}">
+	</head>
+
+	<body>
+		{% block content %}
+			<h1>Critical Error!</h1>
+			<label>Uh oh, you've either forgotten key data, or entered existing data in function:</label> <label class="error">{{ data[0] }}</label><br>
+			<br>
+			<label>Cause of Error:</label> <label class="error">{{ data[1] }}</label>
+			<label><br><br><br><br>Operation aborted. <a href="{{ url_for('index') }}">Click to return to menu...</a></label>
+		{% endblock %}
+	</body>
+</html>
